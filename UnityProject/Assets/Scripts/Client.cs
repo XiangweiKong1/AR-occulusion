@@ -9,12 +9,10 @@ public class Client : MonoBehaviour
     public RawImage image;
     public CanvasScaler scaler;
     public HandParams handParams;
-    public GameObject fireL, fireR;
 
     public Receiver receiver;
     public Sender sender;
     public Hand leftHand, rightHand;
-    public Fire leftFire;
     public Texture2D receiveTexture;
     public Texture2D sendTexture;
     public RenderTexture renderTexture;
@@ -58,9 +56,7 @@ public class Client : MonoBehaviour
                 leftHand = new Hand(handParams, xMult: -1);
                 rightHand = new Hand(handParams, xMult: 1);
 
-                leftFire = new Fire(leftHand, fireL);
 
-                renderTexture = new RenderTexture(frameWidth, frameHeight, depth: 24);
                 receiveTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
                 sendTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
                 image.texture = receiveTexture;
@@ -74,7 +70,6 @@ public class Client : MonoBehaviour
             leftHand.Process(data.dataL);
             rightHand.Process(data.dataR);
 
-            leftFire.Draw();
         }
     }
 
