@@ -19,6 +19,9 @@ ModelImporter:
       74: -4496633769417029082
     second: Point|Hemi|Hemi|00|Hemi|00.003
   - first:
+      74: 578989610767688594
+    second: Point|Hemi|Hemi|00|Hemi|00.004
+  - first:
       74: 463364192216257878
     second: Point|Point.001|Point|00|Point|00
   - first:
@@ -33,6 +36,9 @@ ModelImporter:
   - first:
       74: 7628201899970293961
     second: Point|Point|Point|00|Point|00.003
+  - first:
+      74: 8754033894791254796
+    second: Point|Point|Point|00|Point|00.004
   - first:
       74: 6496695581472441751
     second: Hemi|Hemi.001|Hemi|00|Hemi|00
@@ -49,6 +55,9 @@ ModelImporter:
       74: 5432285936766635925
     second: Hemi|Hemi|Hemi|00|Hemi|00.003
   - first:
+      74: -3466114190143268710
+    second: Hemi|Hemi|Hemi|00|Hemi|00.004
+  - first:
       74: 4031937776849837270
     second: Hemi|Point.001|Point|00|Point|00
   - first:
@@ -64,8 +73,11 @@ ModelImporter:
       74: 3839264774050043952
     second: Hemi|Point|Point|00|Point|00.003
   - first:
-      74: -5753072128413668422
-    second: Armature|Armature|Armature|00|Armature|00.004
+      74: -8705946475287846396
+    second: Hemi|Point|Point|00|Point|00.004
+  - first:
+      74: -6133035583384100979
+    second: Armature|Armature|Armature|00|Armature|00.005
   - first:
       74: 8773503873830417744
     second: Armature|Hemi.001|Hemi|00|Hemi|00
@@ -82,6 +94,9 @@ ModelImporter:
       74: 5333752187253064591
     second: Armature|Hemi|Hemi|00|Hemi|00.003
   - first:
+      74: -6592935948391203130
+    second: Armature|Hemi|Hemi|00|Hemi|00.004
+  - first:
       74: 3241475243515051202
     second: Armature|Point.001|Point|00|Point|00
   - first:
@@ -96,6 +111,9 @@ ModelImporter:
   - first:
       74: 3039129526926033788
     second: Armature|Point|Point|00|Point|00.003
+  - first:
+      74: -2596095118098582744
+    second: Armature|Point|Point|00|Point|00.004
   externalObjects: {}
   materials:
     materialImportMode: 1
