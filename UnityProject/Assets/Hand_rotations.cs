@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hand_rotations : MonoBehaviour
+public class Hand_rotations
 {
+    public GameObject rigidHand;
+    private string handPath = "hand test 1";
+
     // Start is called before the first frame update
-    void Start()
+    public Hand_rotations()
     {
-        
+        rigidHand = new GameObject("rigidHand");
+        rigidHand = Resources.Load(handPath) as GameObject;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Process(Data.HandData rodata)
     {
-        
+        Debug.Log(rigidHand);
+        Debug.Log(rodata.rotations[0]);
+
     }
 }

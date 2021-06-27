@@ -25,8 +25,8 @@ public class Receiver : StopableThread
                 socket.TryReceiveFrameBytes(out byte[] frame))
             {
                 var data = JsonUtility.FromJson<Data>(dataJson);
-                Debug.Log(dataJson);
-                Debug.Log(data.dataL.rotations[0]);
+//                Debug.Log(dataJson);
+ //               Debug.Log(data.dataL.rotations[0]);
                 while (!toEventLoop.IsEmpty) toEventLoop.TryDequeue(out _);
                 toEventLoop.Enqueue((data, frame));
             }

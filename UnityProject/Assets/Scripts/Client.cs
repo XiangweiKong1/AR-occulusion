@@ -13,6 +13,7 @@ public class Client : MonoBehaviour
     public Receiver receiver;
     public Sender sender;
     public Hand leftHand, rightHand;
+    public Hand_rotations leftRigidHand, rightRigidHand;
     public Texture2D receiveTexture;
     public Texture2D sendTexture;
     public RenderTexture renderTexture;
@@ -56,6 +57,8 @@ public class Client : MonoBehaviour
                 leftHand = new Hand(handParams, xMult: -1);
                 rightHand = new Hand(handParams, xMult: 1);
 
+                leftRigidHand = new Hand_rotations();
+                rightRigidHand = new Hand_rotations();
 
                 receiveTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
                 sendTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
@@ -69,6 +72,8 @@ public class Client : MonoBehaviour
 
             leftHand.Process(data.dataL);
             rightHand.Process(data.dataR);
+            leftRigidHand.Process(data.dataL);
+            rightRigidHand.Process(data.dataR);
 
         }
     }
