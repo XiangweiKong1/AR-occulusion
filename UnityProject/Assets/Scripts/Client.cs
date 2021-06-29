@@ -22,7 +22,7 @@ public class Client : MonoBehaviour
     public static float frustumWidth;
 
     public Data dataTransfer;
-    //public RigidHand leftRigidHand;
+    public RigidHand leftRigidHand;
 
     private void Start()
     {
@@ -77,7 +77,7 @@ public class Client : MonoBehaviour
 
             leftHand.Process(data.dataL);
             rightHand.Process(data.dataR);
-     //       leftRigidHand.Process(data.dataL);
+            leftRigidHand.Process(data.dataL);
       //      rightRigidHand.Process(data.dataR);
 
         }

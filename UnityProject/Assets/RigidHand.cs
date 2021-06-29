@@ -7,7 +7,6 @@ public class RigidHand : MonoBehaviour
 {
     
     public GameObject rigidHand;
-    public Data.HandData data;
     public Vector3[] rotations;
     public GameObject wrist;
     public GameObject thumb1, thumb2, thumb3, thumb4;
@@ -51,10 +50,8 @@ public class RigidHand : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Process(Data.HandData data)
     {
-        data = GameObject.Find("Main Camera").GetComponent<Client>().dataTransfer.dataL;
-
         for (int i = 0; i < 21; i++)
         { 
             temp = data.rotations[i].x * data.rotations[i].x + data.rotations[i].y * data.rotations[i].y + data.rotations[i].z * data.rotations[i].z + data.rotations[i].w * data.rotations[i].w;
@@ -77,27 +74,27 @@ public class RigidHand : MonoBehaviour
 
         wrist.transform.position = actualTarget;
 
-        wrist.transform.Rotate(rotations[0]);
-        thumb1.transform.Rotate(rotations[1]);
-        thumb2.transform.Rotate(rotations[2]);
-        thumb3.transform.Rotate(rotations[3]);
-        thumb4.transform.Rotate(rotations[4]);
-        index1.transform.Rotate(rotations[5]);
-        index2.transform.Rotate(rotations[6]);
-        index3.transform.Rotate(rotations[7]);
-        index4.transform.Rotate(rotations[8]);
-        middle1.transform.Rotate(rotations[9]);
-        middle2.transform.Rotate(rotations[10]);
-        middle3.transform.Rotate(rotations[11]);
-        middle4.transform.Rotate(rotations[12]);
-        ring1.transform.Rotate(rotations[13]);
-        ring2.transform.Rotate(rotations[14]);
-        ring3.transform.Rotate(rotations[15]);
-        ring4.transform.Rotate(rotations[16]);
-        pinky1.transform.Rotate(rotations[17]);
-        pinky2.transform.Rotate(rotations[18]);
-        pinky3.transform.Rotate(rotations[19]);
-        pinky4.transform.Rotate(rotations[20]);
+        wrist.transform.rotation = Quaternion.Euler(rotations[0]);
+        thumb1.transform.rotation = Quaternion.Euler(rotations[1]);
+        thumb2.transform.rotation = Quaternion.Euler(rotations[2]);
+        thumb3.transform.rotation = Quaternion.Euler(rotations[3]);
+        thumb4.transform.rotation = Quaternion.Euler(rotations[4]);
+        index1.transform.rotation = Quaternion.Euler(rotations[5]);
+        index2.transform.rotation = Quaternion.Euler(rotations[6]);
+        index3.transform.rotation = Quaternion.Euler(rotations[7]);
+        index4.transform.rotation = Quaternion.Euler(rotations[8]);
+        middle1.transform.rotation = Quaternion.Euler(rotations[9]);
+        middle2.transform.rotation = Quaternion.Euler(rotations[10]);
+        middle3.transform.rotation = Quaternion.Euler(rotations[11]);
+        middle4.transform.rotation = Quaternion.Euler(rotations[12]);
+        ring1.transform.rotation = Quaternion.Euler(rotations[13]);
+        ring2.transform.rotation = Quaternion.Euler(rotations[14]);
+        ring3.transform.rotation = Quaternion.Euler(rotations[15]);
+        ring4.transform.rotation = Quaternion.Euler(rotations[16]);
+        pinky1.transform.rotation = Quaternion.Euler(rotations[17]);
+        pinky2.transform.rotation = Quaternion.Euler(rotations[18]);
+        pinky3.transform.rotation = Quaternion.Euler(rotations[19]);
+        pinky4.transform.rotation = Quaternion.Euler(rotations[20]);
 
 
 

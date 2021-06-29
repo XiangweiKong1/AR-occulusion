@@ -239,13 +239,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidHand: {fileID: 0}
-  data:
-    origin: {x: 0, y: 0, z: 0}
-    joints: []
-    distX: 0
-    distY: 0
-    vert: 0
-    rotations: []
   rotations: []
   wrist: {fileID: 0}
   thumb1: {fileID: 0}
@@ -268,6 +261,7 @@ MonoBehaviour:
   pinky2: {fileID: 0}
   pinky3: {fileID: 0}
   pinky4: {fileID: 0}
+  temp: 0
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +476,7 @@ MonoBehaviour:
       rotations: []
     frameWidth: 0
     frameHeight: 0
+  leftRigidHand: {fileID: 325458347}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
