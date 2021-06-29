@@ -5,7 +5,8 @@ using UnityEngine;
 public class Hand_rotations
 {
     public GameObject rigidHand;
-    private string handPath = "hand test 1";
+    public List<Vector3> rotations;
+    private string handPath = "hand test 1.fbx";
 
     // Start is called before the first frame update
     public Hand_rotations()
@@ -17,8 +18,13 @@ public class Hand_rotations
     // Update is called once per frame
     public void Process(Data.HandData rodata)
     {
-        Debug.Log(rigidHand);
-        Debug.Log(rodata.rotations[0]);
+        //convert quaternion to euler angles
+        //Quaternion[] rotationsQuat = new Quaternion[21];
+        //for (int i = 0 i < 21; ++i)
+        //    rotationsQuat[i] = new Quaternion(rodata.rotations[i].x, rodata.rotations[i].y, rodata.rotations[i].z, rodata.rotations[i].w);
+        //rotations = rotationsQuat.eulerAngles;
+        //Debug.Log(rigidHand);
+        //Debug.Log(rodata.rotations[0]);
 
     }
 }

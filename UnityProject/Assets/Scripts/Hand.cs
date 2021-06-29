@@ -62,39 +62,39 @@ public class Hand
         //
 
         // Calc show
-        var avgFramesToHide = Mathf.Max(1f, hparams.avgSecondsToHide / Time.deltaTime);
-        while (waySumQueue.Count > avgFramesToHide) waySumQueue.Dequeue();
-        var avgWaySum = waySumQueue.Average();
-        if (avgWaySum > hparams.maxAvgWaySum || dist < hparams.minDist || dist > hparams.maxDist)
-        {
-            show = 0f;
-        }
-        else
-        {
-            show = Mathf.Min(show + hparams.showSpeed / avgWaySum, 1f);
-        }
-        // spheresParent.SetActive(show.Equals(1f));
+        //var avgFramesToHide = Mathf.Max(1f, hparams.avgSecondsToHide / Time.deltaTime);
+        //while (waySumQueue.Count > avgFramesToHide) waySumQueue.Dequeue();
+        //var avgWaySum = waySumQueue.Average();
+        //if (avgWaySum > hparams.maxAvgWaySum || dist < hparams.minDist || dist > hparams.maxDist)
+        //{
+        //    show = 0f;
+        //}
+        //else
+        //{
+        //    show = Mathf.Min(show + hparams.showSpeed / avgWaySum, 1f);
+        //}
+        //spheresParent.SetActive(show.Equals(1f));
         //
 
         // Move lines
-        foreach (
-            var i in Enumerable.Empty<int>()
-                .Concat(Enumerable.Range(0, 4))
-                .Concat(Enumerable.Range(5, 3))
-                .Concat(Enumerable.Range(9, 3))
-                .Concat(Enumerable.Range(13, 3))
-                .Concat(Enumerable.Range(17, 3))
-        )
-        {
-            lineRenderers[i].SetPosition(0, spheres[i].transform.position);
-            lineRenderers[i].SetPosition(1, spheres[i + 1].transform.position);
-        }
+        //foreach (
+        //    var i in Enumerable.Empty<int>()
+         //       .Concat(Enumerable.Range(0, 4))
+         //       .Concat(Enumerable.Range(5, 3))
+         //       .Concat(Enumerable.Range(9, 3))
+        //        .Concat(Enumerable.Range(13, 3))
+        //        .Concat(Enumerable.Range(17, 3))
+        //)
+        //{
+        //    lineRenderers[i].SetPosition(0, spheres[i].transform.position);
+        //    lineRenderers[i].SetPosition(1, spheres[i + 1].transform.position);
+        //}
         //
 
         
-        indexDist =
-            Vector3.Distance(spheres[8].transform.position, spheres[12].transform.position) +
-            Vector3.Distance(spheres[8].transform.position, spheres[16].transform.position) +
-            Vector3.Distance(spheres[8].transform.position, spheres[20].transform.position);
+        //indexDist =
+        //    Vector3.Distance(spheres[8].transform.position, spheres[12].transform.position) +
+         //   Vector3.Distance(spheres[8].transform.position, spheres[16].transform.position) +
+         //   Vector3.Distance(spheres[8].transform.position, spheres[20].transform.position);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Client : MonoBehaviour
 {
+  
     private bool _initialized = false;
     public bool landscape = true;
     public RawImage image;
@@ -13,12 +14,15 @@ public class Client : MonoBehaviour
     public Receiver receiver;
     public Sender sender;
     public Hand leftHand, rightHand;
-    public Hand_rotations leftRigidHand, rightRigidHand;
+    //public Hand_rotations leftRigidHand, rightRigidHand;
     public Texture2D receiveTexture;
     public Texture2D sendTexture;
     public RenderTexture renderTexture;
     public static float frustumHeight;
     public static float frustumWidth;
+
+    public Data dataTransfer;
+    //public RigidHand leftRigidHand;
 
     private void Start()
     {
@@ -45,6 +49,7 @@ public class Client : MonoBehaviour
         while (receiver.toEventLoop.TryDequeue(out var dataAndFrame))
         {
             (Data data, byte[] frame) = dataAndFrame;
+            dataTransfer = data;
 
             if (!_initialized)
             {
@@ -57,8 +62,8 @@ public class Client : MonoBehaviour
                 leftHand = new Hand(handParams, xMult: -1);
                 rightHand = new Hand(handParams, xMult: 1);
 
-                leftRigidHand = new Hand_rotations();
-                rightRigidHand = new Hand_rotations();
+  //              leftRigidHand = new Hand_rotations();
+   //             rightRigidHand = new Hand_rotations();
 
                 receiveTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
                 sendTexture = new Texture2D(frameWidth, frameHeight, TextureFormat.RGB24, mipChain: false);
@@ -72,8 +77,8 @@ public class Client : MonoBehaviour
 
             leftHand.Process(data.dataL);
             rightHand.Process(data.dataR);
-            leftRigidHand.Process(data.dataL);
-            rightRigidHand.Process(data.dataR);
+     //       leftRigidHand.Process(data.dataL);
+      //      rightRigidHand.Process(data.dataR);
 
         }
     }
