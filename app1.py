@@ -36,6 +36,9 @@ class WebcamCapture(cv2.VideoCapture):
 def to_vec(pos):
     return dict(zip(['x', 'y', 'z'], pos))
 
+def to_vec_4(pos):
+    return dict(zip(['x', 'y', 'z', 'w'], pos))
+
 
 def filter_nan_inf(x):
     return x[np.isfinite(x)]
@@ -115,7 +118,7 @@ def calc_hand_data(iv, ro):
     #     joints = list([to_vec([*(uv[::-1]/32), xyz[2]]) for xyz, uv in zip(iv.xyz, xy)])
 
     joints = list([to_vec(xyz) for xyz in iv.xyz.tolist()])  # tolist, because 0mq can't work with np.float
-    ro = list([to_vec(xyz) for xyz in ro.tolist()])
+    ro = list([to_vec_4(xyzw) for xyzw in ro.tolist()])
     def calc_dists(indexes):
         return np.array([
             np.linalg.norm(iv.xyz[i[1:], :2] - iv.xyz[i[:-1], :2]) * 32 /
@@ -201,7 +204,5 @@ def main():
             fps_send()
         print(hand_data_l[5])
         print(type(hand_data_l[5]))
-        print(hand_data_l[2])
-        print(type(hand_data_l[1]))
 if __name__ == '__main__':
     main()
