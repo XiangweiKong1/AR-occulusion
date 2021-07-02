@@ -14,12 +14,14 @@ public class RigidHand : MonoBehaviour
     public GameObject middle1, middle2, middle3, middle4;
     public GameObject ring1, ring2, ring3, ring4;
     public GameObject pinky1, pinky2, pinky3, pinky4;
+    public Quaternion[] quatRotations;
     public float temp;
 
     // Start is called before the first frame update
     void Start()
     {
         rotations = new Vector3[21];
+        quatRotations = new Quaternion[21];
         rigidHand = this.gameObject;
         wrist = rigidHand.transform.GetChild(0).GetChild(0).gameObject;
 
@@ -53,13 +55,14 @@ public class RigidHand : MonoBehaviour
     public void Process(Data.HandData data)
     {
         for (int i = 0; i < 21; i++)
-        { 
-            temp = data.rotations[i].x * data.rotations[i].x + data.rotations[i].y * data.rotations[i].y + data.rotations[i].z * data.rotations[i].z + data.rotations[i].w * data.rotations[i].w;
-            if (temp != 1)
-            {
-                data.rotations[i] = data.rotations[i] / Mathf.Sqrt(temp);
-            }
-            rotations[i] = new Quaternion(data.rotations[i].x, data.rotations[i].y, data.rotations[i].z, data.rotations[i].w).eulerAngles;
+        {
+            //temp = data.rotations[i].x * data.rotations[i].x + data.rotations[i].y * data.rotations[i].y + data.rotations[i].z * data.rotations[i].z + data.rotations[i].w * data.rotations[i].w;
+            //if (temp != 1)
+            //{
+            //    data.rotations[i] = data.rotations[i] / Mathf.Sqrt(temp);
+            //}
+            quatRotations[i] = new Quaternion(data.rotations[i].x, data.rotations[i].y, data.rotations[i].z, data.rotations[i].w);
+            rotations[i] = quatRotations[i].eulerAngles;
         }
 
         float scaleX = data.vert * data.distX + (1 - data.vert) * data.distY;
@@ -74,27 +77,27 @@ public class RigidHand : MonoBehaviour
 
         wrist.transform.position = actualTarget;
 
-        wrist.transform.rotation = Quaternion.Euler(rotations[0]);
-        thumb1.transform.rotation = Quaternion.Euler(rotations[1]);
-        thumb2.transform.rotation = Quaternion.Euler(rotations[2]);
-        thumb3.transform.rotation = Quaternion.Euler(rotations[3]);
-        thumb4.transform.rotation = Quaternion.Euler(rotations[4]);
-        index1.transform.rotation = Quaternion.Euler(rotations[5]);
-        index2.transform.rotation = Quaternion.Euler(rotations[6]);
-        index3.transform.rotation = Quaternion.Euler(rotations[7]);
-        index4.transform.rotation = Quaternion.Euler(rotations[8]);
-        middle1.transform.rotation = Quaternion.Euler(rotations[9]);
-        middle2.transform.rotation = Quaternion.Euler(rotations[10]);
-        middle3.transform.rotation = Quaternion.Euler(rotations[11]);
-        middle4.transform.rotation = Quaternion.Euler(rotations[12]);
-        ring1.transform.rotation = Quaternion.Euler(rotations[13]);
-        ring2.transform.rotation = Quaternion.Euler(rotations[14]);
-        ring3.transform.rotation = Quaternion.Euler(rotations[15]);
-        ring4.transform.rotation = Quaternion.Euler(rotations[16]);
-        pinky1.transform.rotation = Quaternion.Euler(rotations[17]);
-        pinky2.transform.rotation = Quaternion.Euler(rotations[18]);
-        pinky3.transform.rotation = Quaternion.Euler(rotations[19]);
-        pinky4.transform.rotation = Quaternion.Euler(rotations[20]);
+        wrist.transform.rotation = quatRotations[0];
+        thumb1.transform.rotation = quatRotations[1];
+        thumb2.transform.rotation = quatRotations[2];
+        thumb3.transform.rotation = quatRotations[3];
+        thumb4.transform.rotation = quatRotations[4];
+        index1.transform.rotation = quatRotations[5];
+        index2.transform.rotation = quatRotations[6];
+        index3.transform.rotation = quatRotations[7];
+        index4.transform.rotation = quatRotations[8];
+        middle1.transform.rotation = quatRotations[9];
+        middle2.transform.rotation = quatRotations[10];
+        middle3.transform.rotation = quatRotations[11];
+        middle4.transform.rotation = quatRotations[12];
+        ring1.transform.rotation = quatRotations[13];
+        ring2.transform.rotation = quatRotations[14];
+        ring3.transform.rotation = quatRotations[15];
+        ring4.transform.rotation = quatRotations[16];
+        pinky1.transform.rotation = quatRotations[17];
+        pinky2.transform.rotation = quatRotations[18];
+        pinky3.transform.rotation = quatRotations[19];
+        pinky4.transform.rotation = quatRotations[20];
 
 
 

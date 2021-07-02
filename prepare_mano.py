@@ -14,7 +14,7 @@ def prepare_mano():
 
   output = {}
   output['verts'] = np.array(data['v_template'])
-  output['faces'] = np.array(data['f'])·
+  output['faces'] = np.array(data['f'])
   output['mesh_basis'] = np.transpose(data['shapedirs'], (2, 0, 1))
 
   j_regressor = np.zeros([21, 778])
