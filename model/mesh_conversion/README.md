@@ -1,0 +1,1 @@
+This folder contains a blender python script for converting the hand mesh (originally from models/hand_mesh/hand_mesh_model.pkl) to FBX.
