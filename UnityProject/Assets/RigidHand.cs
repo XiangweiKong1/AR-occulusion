@@ -15,12 +15,15 @@ public class RigidHand : MonoBehaviour
     public GameObject ring1, ring2, ring3, ring4;
     public GameObject pinky1, pinky2, pinky3, pinky4;
     public Quaternion[] quatRotations;
+    public Vector3[] adjRotations;
     public float temp;
+    public Vector3 wristOffset;
 
     // Start is called before the first frame update
     void Start()
     {
         rotations = new Vector3[21];
+        adjRotations = new Vector3[21];
         quatRotations = new Quaternion[21];
         rigidHand = this.gameObject;
         wrist = rigidHand.transform.GetChild(0).GetChild(0).gameObject;
@@ -56,11 +59,11 @@ public class RigidHand : MonoBehaviour
     {
         for (int i = 0; i < 21; i++)
         {
-            //temp = data.rotations[i].x * data.rotations[i].x + data.rotations[i].y * data.rotations[i].y + data.rotations[i].z * data.rotations[i].z + data.rotations[i].w * data.rotations[i].w;
-            //if (temp != 1)
-            //{
-            //    data.rotations[i] = data.rotations[i] / Mathf.Sqrt(temp);
-            //}
+            temp = data.rotations[i].x * data.rotations[i].x + data.rotations[i].y * data.rotations[i].y + data.rotations[i].z * data.rotations[i].z + data.rotations[i].w * data.rotations[i].w;
+            if (temp != 1)
+            {
+                data.rotations[i] = data.rotations[i] / Mathf.Sqrt(temp);
+            }
             quatRotations[i] = new Quaternion(data.rotations[i].x, data.rotations[i].y, data.rotations[i].z, data.rotations[i].w);
             rotations[i] = quatRotations[i].eulerAngles;
         }
@@ -69,7 +72,7 @@ public class RigidHand : MonoBehaviour
         float scaleY = data.vert * data.distY + (1 - data.vert) * data.distX;
         float dist = (scaleX + scaleY) / 2;
         var target = new Vector3(
-            (+data.joints[0].x / scaleX + data.origin.x) * (Client.frustumWidth / 2) * (-1),
+            (+data.joints[0].x / scaleX + data.origin.x) * (Client.frustumWidth / 2) * (1),
             (-data.joints[0].y / scaleY + (data.origin.y - 0.5f)) * Client.frustumHeight,
             1f * data.joints[0].z + 1f * dist);
         var actualTarget = Vector3.Lerp(wrist.transform.position, target,
@@ -77,29 +80,34 @@ public class RigidHand : MonoBehaviour
 
         wrist.transform.position = actualTarget;
 
-        wrist.transform.rotation = quatRotations[0];
-        thumb1.transform.rotation = quatRotations[1];
-        thumb2.transform.rotation = quatRotations[2];
-        thumb3.transform.rotation = quatRotations[3];
-        thumb4.transform.rotation = quatRotations[4];
-        index1.transform.rotation = quatRotations[5];
-        index2.transform.rotation = quatRotations[6];
-        index3.transform.rotation = quatRotations[7];
-        index4.transform.rotation = quatRotations[8];
-        middle1.transform.rotation = quatRotations[9];
-        middle2.transform.rotation = quatRotations[10];
-        middle3.transform.rotation = quatRotations[11];
-        middle4.transform.rotation = quatRotations[12];
-        ring1.transform.rotation = quatRotations[13];
-        ring2.transform.rotation = quatRotations[14];
-        ring3.transform.rotation = quatRotations[15];
-        ring4.transform.rotation = quatRotations[16];
-        pinky1.transform.rotation = quatRotations[17];
-        pinky2.transform.rotation = quatRotations[18];
-        pinky3.transform.rotation = quatRotations[19];
-        pinky4.transform.rotation = quatRotations[20];
+        for (int i = 0; i < 21; i++)
+        {
+            adjRotations[i] = new Vector3(-rotations[i].x, rotations[i].y, -rotations[i].z);
+        }
 
+        wrist.transform.rotation =  Quaternion.Euler(adjRotations[0]);
+        thumb1.transform.rotation = Quaternion.Euler(adjRotations[1]);
+        thumb2.transform.rotation = Quaternion.Euler(adjRotations[2]);
+        thumb3.transform.rotation = Quaternion.Euler(adjRotations[3]);
+        thumb4.transform.rotation = Quaternion.Euler(adjRotations[4]);
+        index1.transform.rotation = Quaternion.Euler(adjRotations[5]);
+        index2.transform.rotation = Quaternion.Euler(adjRotations[6]);
+        index3.transform.rotation = Quaternion.Euler(adjRotations[7]);
+        index4.transform.rotation = Quaternion.Euler(adjRotations[8]);
+        middle1.transform.rotation = Quaternion.Euler(adjRotations[9]);
+        middle2.transform.rotation = Quaternion.Euler(adjRotations[10]);
+        middle3.transform.rotation = Quaternion.Euler(adjRotations[11]);
+        middle4.transform.rotation = Quaternion.Euler(adjRotations[12]);
+        ring1.transform.rotation = Quaternion.Euler(adjRotations[13]);
+        ring2.transform.rotation = Quaternion.Euler(adjRotations[14]);
+        ring3.transform.rotation = Quaternion.Euler(adjRotations[15]);
+        ring4.transform.rotation = Quaternion.Euler(adjRotations[16]);
+        pinky1.transform.rotation = Quaternion.Euler(adjRotations[17]);
+        pinky2.transform.rotation = Quaternion.Euler(adjRotations[18]);
+        pinky3.transform.rotation = Quaternion.Euler(adjRotations[19]);
+        pinky4.transform.rotation = Quaternion.Euler(adjRotations[20]);
 
+        wrist.transform.rotation *= Quaternion.Euler(wristOffset);
 
         //Debug.Log(rigidHand.transform.GetChild(0).GetChild(0));
         //Debug.Log(data.dataL.rotations[20]);

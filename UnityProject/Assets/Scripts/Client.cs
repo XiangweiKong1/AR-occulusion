@@ -77,7 +77,7 @@ public class Client : MonoBehaviour
 
             leftHand.Process(data.dataL);
             rightHand.Process(data.dataR);
-            leftRigidHand.Process(data.dataL);
+            leftRigidHand.Process(data.dataR);
       //      rightRigidHand.Process(data.dataR);
 
         }
