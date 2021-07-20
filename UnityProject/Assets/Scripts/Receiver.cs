@@ -19,10 +19,12 @@ public class Receiver : StopableThread
 
         var socket = new PullSocket();
         socket.Connect("tcp://localhost:5555");
+        socket.Options.HeartbeatTimeout = System.TimeSpan.FromSeconds(1);
+        socket.Options.Linger = System.TimeSpan.FromSeconds(1);
         while (Running)
         {
-            if (socket.TryReceiveFrameString(out string dataJson) &&
-                socket.TryReceiveFrameBytes(out byte[] frame))
+            if (socket.TryReceiveFrameString(System.TimeSpan.FromSeconds(1), out string dataJson) &&
+                socket.TryReceiveFrameBytes(System.TimeSpan.FromSeconds(1), out byte[] frame))
             {
                 var data = JsonUtility.FromJson<Data>(dataJson);
 //                Debug.Log(dataJson);

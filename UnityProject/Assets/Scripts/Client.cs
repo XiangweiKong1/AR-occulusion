@@ -22,7 +22,7 @@ public class Client : MonoBehaviour
     public static float frustumWidth;
 
     public Data dataTransfer;
-    public RigidHand leftRigidHand;
+    public RigidHandNew leftRigidHand;
 
     private void Start()
     {
@@ -38,6 +38,7 @@ public class Client : MonoBehaviour
 
         sender = new Sender();
         sender.Start();
+        AsyncIO.ForceDotNet.Force();
     }
 
     private void Update()
@@ -87,7 +88,7 @@ public class Client : MonoBehaviour
     {
         receiver.Stop();
         sender.Stop();
-        NetMQConfig.Cleanup();
+        NetMQConfig.Cleanup(false);
     }
 
     private void OnPreRender()

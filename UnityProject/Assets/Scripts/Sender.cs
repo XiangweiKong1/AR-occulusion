@@ -16,12 +16,14 @@ public class Sender : StopableThread
     {
         ForceDotNet.Force();
         var socket = new PushSocket();
+        socket.Options.HeartbeatTimeout = System.TimeSpan.FromSeconds(1);
+        socket.Options.Linger = System.TimeSpan.FromSeconds(1);
         socket.Connect("tcp://localhost:5556");
         while (Running)
         {
             if (fromEventLoop.TryDequeue(out byte[] img))
             {
-                socket.TrySendFrame(img);
+                socket.TrySendFrame(System.TimeSpan.FromSeconds(1), img);
             }
         }
     }
