@@ -11,7 +11,7 @@ public class Client : MonoBehaviour
     public CanvasScaler scaler;
     public HandParams handParams;
 
-    public Receiver receiver;
+    public VertReceiver receiver;
     public Sender sender;
     public Hand leftHand, rightHand;
     //public Hand_rotations leftRigidHand, rightRigidHand;
@@ -21,7 +21,7 @@ public class Client : MonoBehaviour
     public static float frustumHeight;
     public static float frustumWidth;
 
-    public Data dataTransfer;
+    public VertData dataTransfer;
     public RigidHandNew leftRigidHand;
 
     private void Start()
@@ -33,7 +33,7 @@ public class Client : MonoBehaviour
         scaler = image.GetComponentInParent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 
-        receiver = new Receiver();
+        receiver = new VertReceiver();
         receiver.Start();
 
         sender = new Sender();
@@ -49,7 +49,7 @@ public class Client : MonoBehaviour
 
         while (receiver.toEventLoop.TryDequeue(out var dataAndFrame))
         {
-            (Data data, byte[] frame) = dataAndFrame;
+            (VertData data, byte[] frame) = dataAndFrame;
             dataTransfer = data;
 
             if (!_initialized)
@@ -76,9 +76,9 @@ public class Client : MonoBehaviour
             receiveTexture.LoadRawTextureData(frame);
             receiveTexture.Apply(updateMipmaps: false); // image.texture = receiveTexture;
 
-            leftHand.Process(data.dataL);
-            rightHand.Process(data.dataR);
-            leftRigidHand.Process(data.dataR);
+            //leftHand.Process(data.dataL);
+            //rightHand.Process(data.dataR);
+            leftRigidHand.Process(data.left_hand_data);
       //      rightRigidHand.Process(data.dataR);
 
         }
