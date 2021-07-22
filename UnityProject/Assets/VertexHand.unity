@@ -316,9 +316,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landscape: 1
-  image: {fileID: 0}
+  image: {fileID: 1214597850}
   scaler: {fileID: 0}
-  handParams: {fileID: 0}
+  handParams: {fileID: 963194230}
   receiveTexture: {fileID: 0}
   sendTexture: {fileID: 0}
   renderTexture: {fileID: 0}
