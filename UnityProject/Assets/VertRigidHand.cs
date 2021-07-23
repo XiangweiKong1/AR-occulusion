@@ -16,11 +16,11 @@ public class VertRigidHand : MonoBehaviour
     // Update is called once per frame
     public void Process(VertData.HandData data)
     {
+        this.GetComponent<MeshFilter>().mesh.SetVertices(data.verts);
         if (!facesSet) // Only need to set the faces once.
         {
             this.GetComponent<MeshFilter>().mesh.SetTriangles(data.faces, 0);
             facesSet = true;
         }
-        this.GetComponent<MeshFilter>().mesh.SetVertices(data.verts);
     }
 }
