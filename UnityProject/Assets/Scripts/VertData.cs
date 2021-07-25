@@ -17,6 +17,7 @@ public class VertData
     public int frameWidth;
     public int frameHeight;
 
+    [System.Serializable]
     public class HandData
     {
         public Vector3 origin;
