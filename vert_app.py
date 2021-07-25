@@ -216,7 +216,7 @@ def main():
         socket.send_json({
             "left_hand_data": {
                 'verts': v_l_vec,
-                'faces': faces,jkhljhhhhhhhhhhhhhhhjjjjj
+                'faces': faces,
             },
             'frameWidth': frame_large.shape[1],
             'frameHeight': frame_large.shape[0],
