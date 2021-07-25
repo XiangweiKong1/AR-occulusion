@@ -25,6 +25,6 @@ public class VertData
         public float distY;
         public float vert;
     }
-    public HandData datal;
+    public HandData dataL;
 }
 
