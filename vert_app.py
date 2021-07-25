@@ -113,7 +113,7 @@ indexes_y = np.arange(5, 21).reshape((4, 4))
 indexes_x = indexes_y.T
 
 
-def calc_hand_data(iv, ro):
+def calc_hand_data(iv):
     origin = to_vec(calc_origin(iv.hmap[0][..., 9]))
     #     origin = to_vec([iv.uv[9][1] / 32, 1 - (iv.uv[9][0]) / 32])
 
@@ -122,7 +122,6 @@ def calc_hand_data(iv, ro):
     #     joints = list([to_vec([*(uv[::-1]/32), xyz[2]]) for xyz, uv in zip(iv.xyz, xy)])
 
     joints = list([to_vec(xyz) for xyz in iv.xyz.tolist()])  # tolist, because 0mq can't work with np.float
-    ro = list([to_vec_4(xyzw) for xyzw in ro.tolist()])
     def calc_dists(indexes):
         return np.array([
             np.linalg.norm(iv.xyz[i[1:], :2] - iv.xyz[i[:-1], :2]) * 32 /
@@ -145,7 +144,7 @@ def calc_hand_data(iv, ro):
     #     horiz = abs(2 * np.arcsin(u09[0]) / np.pi)
     vert = abs(2 * np.arcsin(u09[1]) / np.pi)
 
-    return origin, joints, dist_x, dist_y, vert, ro
+    return origin, joints, dist_x, dist_y, vert
 
 
 def crop(frame):
@@ -174,7 +173,7 @@ def main():
 
     height, width, _ = info_frame.shape
 
-    hand_data_keys = ['origin', 'joints', 'distX', 'distY', 'vert', 'rotations']
+    hand_data_keys = ['origin', 'joints', 'distX', 'distY', 'vert']
 
     fps_send = FPS('Send:')
 
@@ -193,6 +192,10 @@ def main():
         # iv - intermediate values， ro - rotation values.
         ivl, rol = model.process(np.flip(frame_l, axis=1))
         ivr, ror = model.process(frame_r)
+
+        hand_data_l = calc_hand_data(ivl)
+
+
         #rol = mpii_to_mano(rol)
         #ror = mpii_to_mano(ror)
 
@@ -209,13 +212,15 @@ def main():
             faces.append(int(a[2]))
 
         print("sending verts")
+        print(hand_data_l)
         socket.send_json({
             "left_hand_data": {
                 'verts': v_l_vec,
-                'faces': faces,
+                'faces': faces,jkhljhhhhhhhhhhhhhhhjjjjj
             },
             'frameWidth': frame_large.shape[1],
             'frameHeight': frame_large.shape[0],
+            'dataL': dict(zip(hand_data_keys, hand_data_l)),
         }, zmq.SNDMORE)
         print("sending frame")
         socket.send(np.flip(frame_large, axis=0).tobytes())
