@@ -193,34 +193,54 @@ def main():
         ivl, rol = model.process(np.flip(frame_l, axis=1))
         ivr, ror = model.process(frame_r)
 
+        # the first data to pass, joint information
         hand_data_l = calc_hand_data(ivl)
+        hand_data_r = calc_hand_data(ivr)
 
 
         #rol = mpii_to_mano(rol)
         #ror = mpii_to_mano(ror)
-
+        # mesh for the left hand
         theta_mano_l = mpii_to_mano(rol)
         v_l = hand_mesh.set_abs_quat(theta_mano_l)
         v_l = v_l
         v_l = mesh_smoother.process(v_l)
 
         v_l_vec = list([to_vec(xyz) for xyz in v_l.tolist()])
-        faces = []
+        faces_l = []
         for a in hand_mesh.faces:
-            faces.append(int(a[0]))
-            faces.append(int(a[1]))
-            faces.append(int(a[2]))
+            faces_l.append(int(a[0]))
+            faces_l.append(int(a[1]))
+            faces_l.append(int(a[2]))
+
+        # mesh for the right hand
+        theta_mano_r = mpii_to_mano(ror)
+        v_r = hand_mesh.set_abs_quat(theta_mano_r)
+        v_r = v_r
+        v_r = mesh_smoother.process(v_r)
+
+        v_r_vec = list([to_vec(xyz) for xyz in v_r.tolist()])
+        faces_r = []
+        for a in hand_mesh.faces:
+            faces_r.append(int(a[0]))
+            faces_r.append(int(a[1]))
+            faces_r.append(int(a[2]))
+
 
         print("sending verts")
-        print(hand_data_l)
         socket.send_json({
-            "left_hand_data": {
-                'verts': v_l_vec,
-                'faces': faces,
-            },
+            'dataL': dict(zip(hand_data_keys, hand_data_l)),
+            'dataR': dict(zip(hand_data_keys, hand_data_r)),
             'frameWidth': frame_large.shape[1],
             'frameHeight': frame_large.shape[0],
-            'dataL': dict(zip(hand_data_keys, hand_data_l)),
+            "left_hand_data": {
+                'verts': v_l_vec,
+                'faces': faces_l,
+            },
+            "right_hand_data": {
+                'verts': v_r_vec,
+                'faces': faces_r,
+            },
         }, zmq.SNDMORE)
         print("sending frame")
         socket.send(np.flip(frame_large, axis=0).tobytes())

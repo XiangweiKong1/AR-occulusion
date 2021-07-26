@@ -21,8 +21,8 @@ public class VertClient : MonoBehaviour
     public static float frustumWidth;
 
     public VertData dataTransfer;
-    public VertRigidHand leftRigidHand;
-    public Vector3 location;
+    public VertRigidHand leftRigidHand, rightRigidhand;
+    public Vector3 leftLocation, rightLocation;
 
 
     private void Start()
@@ -74,12 +74,18 @@ public class VertClient : MonoBehaviour
             
             receiveTexture.LoadRawTextureData(frame);
             receiveTexture.Apply(updateMipmaps: false); // image.texture = receiveTexture;
-       //     location = CalLocation(data.datal);
 
-            //leftHand.Process(data.dataL);
-            //rightHand.Process(data.dataR);
+            leftLocation = CalLocation(data.dataL, -1);
+            rightLocation = CalLocation(data.dataR, 1);
+
+            
             leftRigidHand.Process(data.left_hand_data);
-      //      rightRigidHand.Process(data.dataR);
+            leftRigidHand.transform.position = leftLocation;
+           
+
+            rightRigidhand.Process(data.right_hand_data);
+            rightRigidhand.transform.position = rightLocation;
+
 
 
         }
@@ -108,19 +114,18 @@ public class VertClient : MonoBehaviour
         Camera.main.targetTexture = null;
     }
 
-    //private Vector3 CalLocation(VertData.HandData data)
-    //{
-     //   Debug.Log(data.distX);
-        //float scaleX = data.vert * data.distX + (1 - data.vert) * data.distY;
-        //float scaleY = data.vert * data.distY + (1 - data.vert) * data.distX;
-        //float dist = (scaleX + scaleY) / 2;
-        //var target = new Vector3(
-        //    (+data.joints[0].x / scaleX + data.origin.x) * (VertClient.frustumWidth / 2) * (1),
-        //    (-data.joints[0].y / scaleY + (data.origin.y - 0.5f)) * VertClient.frustumHeight,
-        //    1f * data.joints[0].z + 1f * dist);
-        //var actualTarget = Vector3.Lerp(.transform.position, target,
-         //      Vector3.Distance(.transform.position, target) * 5f);
-    //    var target = new Vector3(0, 0, 0);
-   //     return target;
-   // }
+    private Vector3 CalLocation(VertData.HandData data, int i)
+    {
+        float scaleX = data.vert * data.distX + (1 - data.vert) * data.distY;
+        float scaleY = data.vert * data.distY + (1 - data.vert) * data.distX;
+        float dist = (scaleX + scaleY) / 2;
+        var target = new Vector3(
+            (+data.joints[0].x / scaleX + data.origin.x) * (VertClient.frustumWidth / 2) * (i),
+            (-data.joints[0].y / scaleY + (data.origin.y - 0.5f)) * VertClient.frustumHeight,
+            1f * data.joints[0].z + 1f * dist);
+        var actualTarget = Vector3.Lerp(leftRigidHand.transform.position, target,
+               Vector3.Distance(leftRigidHand.transform.position, target) * 5f);
+        //var target = new Vector3(0, 0, 0);
+        return actualTarget;
+    }
 }
