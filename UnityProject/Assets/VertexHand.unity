@@ -322,31 +322,10 @@ MonoBehaviour:
   receiveTexture: {fileID: 0}
   sendTexture: {fileID: 0}
   renderTexture: {fileID: 0}
-  dataTransfer:
-    dataL:
-      origin: {x: 0, y: 0, z: 0}
-      joints: []
-      distX: 0
-      distY: 0
-      vert: 0
-    dataR:
-      origin: {x: 0, y: 0, z: 0}
-      joints: []
-      distX: 0
-      distY: 0
-      vert: 0
-    frameWidth: 0
-    frameHeight: 0
-    left_hand_data:
-      verts: []
-      faces: 
-    right_hand_data:
-      verts: []
-      faces: 
   leftRigidHand: {fileID: 1190016986}
   rightRigidhand: {fileID: 2119176206}
-  leftLocation: {x: 0, y: 0, z: 0}
-  rightLocation: {x: 0, y: 0, z: 0}
+  leftLocationOffset: {x: 0, y: 2.4, z: 0}
+  rightLocationOffset: {x: 0, y: 2.4, z: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0

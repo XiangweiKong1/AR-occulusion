@@ -20,9 +20,11 @@ public class VertClient : MonoBehaviour
     public static float frustumHeight;
     public static float frustumWidth;
 
-    public VertData dataTransfer;
     public VertRigidHand leftRigidHand, rightRigidhand;
-    public Vector3 leftLocation, rightLocation;
+    private Vector3 leftLocation, rightLocation;
+
+    public Vector3 leftLocationOffset;
+    public Vector3 rightLocationOffset;
 
 
     private void Start()
@@ -51,7 +53,6 @@ public class VertClient : MonoBehaviour
         while (receiver.toEventLoop.TryDequeue(out var dataAndFrame))
         {
             (VertData data, byte[] frame) = dataAndFrame;
-            dataTransfer = data;
 
             if (!_initialized)
             {
@@ -75,15 +76,17 @@ public class VertClient : MonoBehaviour
             receiveTexture.LoadRawTextureData(frame);
             receiveTexture.Apply(updateMipmaps: false); // image.texture = receiveTexture;
 
-            leftLocation = CalLocation(data.dataL, -1);
-            rightLocation = CalLocation(data.dataR, 1);
+            leftLocation = CalLocation(data.dataL, -1, handParams);
+            rightLocation = CalLocation(data.dataR, 1, handParams);
 
             
             leftRigidHand.Process(data.left_hand_data);
+            leftLocation += leftLocationOffset;
             leftRigidHand.transform.position = leftLocation;
            
 
             rightRigidhand.Process(data.right_hand_data);
+            rightLocation += rightLocationOffset;
             rightRigidhand.transform.position = rightLocation;
 
 
@@ -114,7 +117,7 @@ public class VertClient : MonoBehaviour
         Camera.main.targetTexture = null;
     }
 
-    private Vector3 CalLocation(VertData.HandData data, int i)
+    private Vector3 CalLocation(VertData.HandData data, int i, HandParams handParams)
     {
         float scaleX = data.vert * data.distX + (1 - data.vert) * data.distY;
         float scaleY = data.vert * data.distY + (1 - data.vert) * data.distX;
@@ -122,9 +125,9 @@ public class VertClient : MonoBehaviour
         var target = new Vector3(
             (+data.joints[0].x / scaleX + data.origin.x) * (VertClient.frustumWidth / 2) * (i),
             (-data.joints[0].y / scaleY + (data.origin.y - 0.5f)) * VertClient.frustumHeight,
-            1f * data.joints[0].z + 1f * dist);
+            handParams.zAlpha * data.joints[0].z + handParams.zBeta * dist);
         var actualTarget = Vector3.Lerp(leftRigidHand.transform.position, target,
-               Vector3.Distance(leftRigidHand.transform.position, target) * 5f);
+               Vector3.Distance(leftRigidHand.transform.position, target) * handParams.speed);
         //var target = new Vector3(0, 0, 0);
         return actualTarget;
     }

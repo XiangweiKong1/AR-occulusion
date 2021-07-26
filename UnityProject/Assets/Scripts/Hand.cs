@@ -42,7 +42,7 @@ public class Hand
         float dist = (scaleX + scaleY) / 2;
 
         // Calc total way and move the spheres
-        var waySum = 0f;
+        //var waySum = 0f;
         foreach (var i in Enumerable.Range(0, HandParams.JointsNum))
         {
             var target = new Vector3(
@@ -54,11 +54,11 @@ public class Hand
             var actualTarget = Vector3.Lerp(spheres[i].transform.position, target,
                 Vector3.Distance(spheres[i].transform.position, target) * hparams.speed);
 
-            waySum += Vector3.Distance(spheres[i].transform.position, actualTarget);
+//            waySum += Vector3.Distance(spheres[i].transform.position, actualTarget);
 
             spheres[i].transform.position = actualTarget;
         }
-        waySumQueue.Enqueue(waySum);
+//        waySumQueue.Enqueue(waySum);
         //
 
         // Calc show
