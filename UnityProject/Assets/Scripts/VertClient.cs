@@ -140,14 +140,14 @@ public class VertClient : MonoBehaviour
         float z = location.z;
       
         var v = new Vector4(
-            location.x/ frustumWidth/2, location.y/ frustumHeight/2, location.z, 1);
+            location.x / (frustumWidth/2), location.y / (frustumHeight/2), location.z, 1);
 
         Debug.Log((location.x, frustumWidth, location.y, frustumHeight));
 
         Matrix4x4 projectionMatrix = Camera.main.projectionMatrix;
         v = projectionMatrix.inverse * v;
 
-        var projectedLocation = new Vector3(v.x / v.w, v.y / v.w, z);
+        var projectedLocation = new Vector3(v.x * z, v.y * z, z);
 
         return projectedLocation;
     }
