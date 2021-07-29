@@ -22,6 +22,7 @@ public class VertClient : MonoBehaviour
 
     public VertRigidHand leftRigidHand, rightRigidhand;
     private Vector3 leftLocation, rightLocation;
+    private Vector3 projectedLeftLocation, projectedRightLocation;
 
     public Vector3 leftLocationOffset;
     public Vector3 rightLocationOffset;
@@ -77,18 +78,20 @@ public class VertClient : MonoBehaviour
             receiveTexture.Apply(updateMipmaps: false); // image.texture = receiveTexture;
 
             leftLocation = CalLocation(data.dataL, -1, handParams);
-            rightLocation = CalLocation(data.dataR, 1, handParams);
+            projectedLeftLocation = Projection(leftLocation, frustumHeight, frustumWidth);
 
-            
+            rightLocation = CalLocation(data.dataR, 1, handParams);
+            projectedRightLocation = Projection(rightLocation, frustumHeight, frustumWidth);
+
+
             leftRigidHand.Process(data.left_hand_data);
-            leftLocation += leftLocationOffset;
-            leftRigidHand.transform.position = leftLocation;
+            projectedLeftLocation += leftLocationOffset;
+            leftRigidHand.transform.position = projectedLeftLocation;
            
 
             rightRigidhand.Process(data.right_hand_data);
-            rightLocation += rightLocationOffset;
-            rightRigidhand.transform.position = rightLocation;
-
+            projectedRightLocation += rightLocationOffset;
+            rightRigidhand.transform.position = projectedRightLocation;
 
 
         }
@@ -130,5 +133,22 @@ public class VertClient : MonoBehaviour
                Vector3.Distance(leftRigidHand.transform.position, target) * handParams.speed);
         //var target = new Vector3(0, 0, 0);
         return actualTarget;
+    }
+
+    private Vector3 Projection(Vector3 location, float frustumHeight, float frustumwight)
+    {
+        float z = location.z;
+      
+        var v = new Vector4(
+            location.x/ frustumWidth/2, location.y/ frustumHeight/2, location.z, 1);
+
+        Debug.Log((location.x, frustumWidth, location.y, frustumHeight));
+
+        Matrix4x4 projectionMatrix = Camera.main.projectionMatrix;
+        v = projectionMatrix.inverse * v;
+
+        var projectedLocation = new Vector3(v.x / v.w, v.y / v.w, z);
+
+        return projectedLocation;
     }
 }
