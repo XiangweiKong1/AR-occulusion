@@ -43,6 +43,8 @@ public class CompositeImage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.GetComponent<Camera>().depthTextureMode = DepthTextureMode.Depth;
+        handCamera.depthTextureMode = DepthTextureMode.Depth;
     }
 
     // Update is called once per frame
@@ -62,5 +64,7 @@ public class CompositeImage : MonoBehaviour
         materialOverlayImages.SetTexture("_HandsTex", handTex);
 
         Graphics.Blit(vertClient.receiveTexture, destination, materialOverlayImages);
+
+        RenderTexture.ReleaseTemporary(handTex);
     }
 }

@@ -1,4 +1,4 @@
-﻿Shader "Hidden/OverlayImages"
+﻿Shader "Hidden/RenderDepth"
 {
 	Properties
 	{
@@ -8,8 +8,6 @@
 #include "UnityCG.cginc"
 
 	sampler2D _MainTex;
-	sampler2D _VirtualTex;
-	sampler2D _HandsTex;
 	sampler2D _CameraDepthTexture;
 
 	struct Input
@@ -35,12 +33,9 @@
 
 	float4 fragment(in Varyings input) : SV_Target
 	{
-		float4 imageColor = tex2D(_MainTex, input.uv);
-		float4 virtualColor = tex2D(_VirtualTex, input.uv);
-		float handsDepth = tex2D(_HandsTex, input.uv).r;
-		float virtualDepth = tex2D(_CameraDepthTexture, input.uv).r;
+		float4 depth = tex2D(_CameraDepthTexture, input.uv);
 
-		float4 outputColor = float4(handsDepth*10, virtualDepth*10, 0, 1);
+		float4 outputColor = float4(depth.r, 0, 0, 1);
 
 		return outputColor;
 	}
