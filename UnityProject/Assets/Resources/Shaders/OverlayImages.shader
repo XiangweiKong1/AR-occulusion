@@ -37,10 +37,27 @@
 	{
 		float4 imageColor = tex2D(_MainTex, input.uv);
 		float4 virtualColor = tex2D(_VirtualTex, input.uv);
-		float handsDepth = tex2D(_HandsTex, input.uv).r;
-		float virtualDepth = tex2D(_CameraDepthTexture, input.uv).r;
+		float4 handColor = tex2D(_HandsTex, input.uv);
 
-		float4 outputColor = float4(handsDepth*10, virtualDepth*10, 0, 1);
+		//float ImageDepth = tex2D(_MainTex, input.uv).r;
+		float handDepth = tex2D(_HandsTex, input.uv).r;
+		float virtualDepth = tex2D(_CameraDepthTexture, input.uv).r;
+		float4 outputColor;
+
+		if (handDepth == 0 && virtualDepth == 0) {
+			outputColor = imageColor;
+		}
+		else {
+			if (handDepth > virtualDepth) {
+				outputColor = handColor;
+			}
+			else {
+				outputColor = virtualColor;
+			}
+		}
+
+			
+		
 
 		return outputColor;
 	}
