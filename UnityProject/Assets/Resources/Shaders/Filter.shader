@@ -54,7 +54,7 @@
 		return output;
 	}
 	
-	float4 Filter(float depth, float2 uv, int size)
+	float4 Filter(float2 uv, int size)
 	{
 		float factor = 0;
 		float output = 0;
@@ -94,13 +94,13 @@
 		//float ImageDepth = tex2D(_MainTex, input.uv).r;
 		float handDepth = tex2D(_HandsTex, input.uv).r;
 		float virtualDepth = tex2D(_CameraDepthTexture, input.uv).r;
-		float4 outputColor = float4(0, 0, 0, 1);
-		float depthMap;
-		if (handDepth != 0) {
-			depthMap = 1;
+		float4 plotHnadDepth = float4(0, 0, 0, 1);
+		float filteredDepth = Filter(input.uv, _Size);
+		plotHnadDepth = float4(filteredDepth, filteredDepth, filteredDepth, 1);
+		float4 outputColor = plotHnadDepth;
+		if (filteredDepth == 0) {
+			outputColor = imageColor;
 		}
-		float filteredDepth = Filter(depthMap, input.uv, _Size);
-		outputColor = float4(filteredDepth, filteredDepth, filteredDepth, 1);
 		return outputColor;
 	}
 		
