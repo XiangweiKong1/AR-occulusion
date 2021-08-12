@@ -49,7 +49,7 @@
 		}
 		else {
 			if (handDepth > virtualDepth) {
-				outputColor = handColor;
+				outputColor = imageColor;
 			}
 			else {
 				outputColor = virtualColor;

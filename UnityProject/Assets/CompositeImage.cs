@@ -12,7 +12,7 @@ public class CompositeImage : MonoBehaviour
         get
         {
             if (m_shaderOverlayImages == null)
-                m_shaderOverlayImages = Shader.Find("Hidden/OverlayImages");
+                m_shaderOverlayImages = Shader.Find("Hidden/Filter");
 
 
             return m_shaderOverlayImages;
@@ -62,6 +62,7 @@ public class CompositeImage : MonoBehaviour
         handCamera.targetTexture = handTex;
         handCamera.Render();
         materialOverlayImages.SetTexture("_HandsTex", handTex);
+        materialOverlayImages.SetVector("_FrameSize", new Vector2(handCamera.pixelWidth, handCamera.pixelHeight));
 
         Graphics.Blit(vertClient.receiveTexture, destination, materialOverlayImages);
 
