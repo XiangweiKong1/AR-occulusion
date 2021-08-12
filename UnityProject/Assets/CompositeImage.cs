@@ -39,6 +39,8 @@ public class CompositeImage : MonoBehaviour
 
     public Camera handCamera;
     public VertClient vertClient;
+    public float sigma = 2;
+    public int size = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +65,8 @@ public class CompositeImage : MonoBehaviour
         handCamera.Render();
         materialOverlayImages.SetTexture("_HandsTex", handTex);
         materialOverlayImages.SetVector("_FrameSize", new Vector2(handCamera.pixelWidth, handCamera.pixelHeight));
-
+        materialOverlayImages.SetFloat("_Sigma", sigma);
+        materialOverlayImages.SetInt("_Size", size);
         Graphics.Blit(vertClient.receiveTexture, destination, materialOverlayImages);
 
         RenderTexture.ReleaseTemporary(handTex);

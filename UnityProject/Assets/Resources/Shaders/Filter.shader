@@ -12,6 +12,8 @@
 	sampler2D _HandsTex;
 	sampler2D _CameraDepthTexture;
 	float2 _FrameSize;
+	float _Sigma;
+	int _Size;
 
 	struct Input
 	{
@@ -34,24 +36,24 @@
 		return output;
 	}
 
-	float CompareColor(float2 uv1, float2 uv2)
-	{
-		float4 color1 = tex2D(_MainTex, uv1);
-		float4 color2 = tex2D(_MainTex, uv2);
-		float output = sqrt(3 - pow((color1.x - color2.x), 2) - pow((color1.y - color2.y), 2) - pow((color1.z - color2.z), 2));
-		//float output = sqrt((color1.x - color2.x) ^ 2 - (color1.y - color2.y) ^ 2 - (color1.z - color2.z) ^ 2);
-		return output;
-	}
-
 	float Gaussian(int x)
 	{
-		float sigmaSqu = 4;
+		float sigmaSqu = _Sigma * _Sigma;
 		float TWO_PI = 6.28319;
 		float E = 2.71828;
 		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
 
 	}
 
+	float CompareColor(float2 uv1, float2 uv2)
+	{
+		float4 color1 = tex2D(_MainTex, uv1);
+		float4 color2 = tex2D(_MainTex, uv2);
+		float output = Gaussian(sqrt(pow((color1.x - color2.x), 2) + pow((color1.y - color2.y), 2) + pow((color1.z - color2.z), 2)));
+		
+		return output;
+	}
+	
 	float4 Filter(float depth, float2 uv, int size)
 	{
 		float factor = 0;
@@ -73,8 +75,6 @@
 				float colorDiff = CompareColor(uv, uv2);
 				factor += spatialDiff * colorDiff;
 				output += depthMap * spatialDiff * colorDiff;
-				//float4 color = tex2D(_MainTex, uv + float2(i / _FrameSize.x, j / _FrameSize.y));
-				//zx/.cvz/x.c,z/x.c,./,z/x.c,zx/.output += color;
 
 			}
 		}
@@ -99,7 +99,7 @@
 		if (handDepth != 0) {
 			depthMap = 1;
 		}
-		float filteredDepth = Filter(depthMap, input.uv, 10);
+		float filteredDepth = Filter(depthMap, input.uv, _Size);
 		outputColor = float4(filteredDepth, filteredDepth, filteredDepth, 1);
 		return outputColor;
 	}
