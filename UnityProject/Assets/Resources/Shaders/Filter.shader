@@ -56,6 +56,7 @@
 	}
 	
 	float Filter(float2 uv, int size)
+
 	{
 		float factor = 0;
 		float output = 0;
@@ -102,8 +103,7 @@
 			}
 			else {
 				outputColor = virtualColor;
-			}
-
+			}		
 		}
 		return outputColor;
 	}
