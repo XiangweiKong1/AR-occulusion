@@ -41,7 +41,7 @@ public class CompositeImage : MonoBehaviour
     public VertClient vertClient;
     public float colorSigma = 2;
     public float spatialSigma = 2;
-    public int size = 10;
+    public int size = 2;
 
     // Start is called before the first frame update
     void Start()

@@ -914,7 +914,7 @@ MonoBehaviour:
   vertClient: {fileID: 963194229}
   colorSigma: 2
   spatialSigma: 2
-  size: 10
+  size: 2
 --- !u!1 &2119176205
 GameObject:
   m_ObjectHideFlags: 0

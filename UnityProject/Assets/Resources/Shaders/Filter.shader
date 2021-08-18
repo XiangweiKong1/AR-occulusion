@@ -37,12 +37,13 @@
 		return output;
 	}
 
-	float Gaussian(int x, float sigma)
+	float Gaussian(float x, float sigma)
 	{
 		float sigmaSqu = sigma * sigma;
 		float TWO_PI = 6.28319;
 		float E = 2.71828;
 		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
+		//return 1;
 
 	}
 
@@ -94,16 +95,11 @@
 		
 		float filteredDepth = Filter(input.uv, _Size);
 		float4 outputColor;
-		if (filteredDepth == 0 && virtualDepth == 0) {
+		if (filteredDepth == 0) {
 			outputColor = imageColor;
 		}
 		else {
-			if (filteredDepth > virtualDepth) {
-				outputColor = imageColor;
-			}
-			else {
-				outputColor = virtualColor;
-			}		
+			outputColor = float4(filteredDepth, 0, 0, 1);
 		}
 		return outputColor;
 	}
