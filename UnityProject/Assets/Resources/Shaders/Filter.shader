@@ -12,7 +12,8 @@
 	sampler2D _HandsTex;
 	sampler2D _CameraDepthTexture;
 	float2 _FrameSize;
-	float _Sigma;
+	float _ColorSigma;
+	float _SpatialSigma;
 	int _Size;
 
 	struct Input
@@ -36,25 +37,25 @@
 		return output;
 	}
 
-	float Gaussian(int x)
+	float Gaussian(int x, float sigma)
 	{
-		float sigmaSqu = _Sigma * _Sigma;
+		float sigmaSqu = sigma * sigma;
 		float TWO_PI = 6.28319;
 		float E = 2.71828;
 		return (1 / sqrt(TWO_PI * sigmaSqu)) * pow(E, -(x * x) / (2 * sigmaSqu));
 
 	}
 
-	float CompareColor(float2 uv1, float2 uv2)
+	float CompareColor(float2 uv1, float2 uv2, float sigma)
 	{
 		float4 color1 = tex2D(_MainTex, uv1);
 		float4 color2 = tex2D(_MainTex, uv2);
-		float output = Gaussian(sqrt(pow((color1.x - color2.x), 2) + pow((color1.y - color2.y), 2) + pow((color1.z - color2.z), 2)));
+		float output = Gaussian(sqrt(pow((color1.x - color2.x), 2) + pow((color1.y - color2.y), 2) + pow((color1.z - color2.z), 2)), sigma);
 		
 		return output;
 	}
 	
-	float4 Filter(float depth, float2 uv, int size)
+	float Filter(float2 uv, int size)
 	{
 		float factor = 0;
 		float output = 0;
@@ -66,15 +67,10 @@
 				float2 uv2 = uv + float2(i / _FrameSize.x, j / _FrameSize.y);
 
 				float handDepth = tex2D(_HandsTex, uv2).r;
-				float depthMap = 0;
-				if (handDepth != 0) {
-					depthMap = 1;
-				}
-
-				float spatialDiff = Gaussian(sqrt(i ^ 2 + j ^ 2));
-				float colorDiff = CompareColor(uv, uv2);
+				float spatialDiff = Gaussian(sqrt(i ^ 2 + j ^ 2), _SpatialSigma);
+				float colorDiff = CompareColor(uv, uv2, _ColorSigma);
 				factor += spatialDiff * colorDiff;
-				output += depthMap * spatialDiff * colorDiff;
+				output += handDepth * spatialDiff * colorDiff;
 
 			}
 		}
@@ -94,13 +90,21 @@
 		//float ImageDepth = tex2D(_MainTex, input.uv).r;
 		float handDepth = tex2D(_HandsTex, input.uv).r;
 		float virtualDepth = tex2D(_CameraDepthTexture, input.uv).r;
-		float4 outputColor = float4(0, 0, 0, 1);
-		float depthMap;
-		if (handDepth != 0) {
-			depthMap = 1;
+		
+		float filteredDepth = Filter(input.uv, _Size);
+		float4 outputColor;
+		if (filteredDepth == 0 && virtualDepth == 0) {
+			outputColor = imageColor;
 		}
-		float filteredDepth = Filter(depthMap, input.uv, _Size);
-		outputColor = float4(filteredDepth, filteredDepth, filteredDepth, 1);
+		else {
+			if (filteredDepth > virtualDepth) {
+				outputColor = imageColor;
+			}
+			else {
+				outputColor = virtualColor;
+			}
+
+		}
 		return outputColor;
 	}
 		
