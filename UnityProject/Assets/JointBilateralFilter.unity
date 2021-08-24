@@ -222,8 +222,8 @@ MonoBehaviour:
   colorSigma: 2
   spatialSigma: 2
   size: 2
-  realColorTex: {fileID: 2800000, guid: b49c7d79e16f2ba418becdb0e789709e, type: 3}
-  realDepthTex: {fileID: 2800000, guid: dbfb489885274414c8a12b76685f60f4, type: 3}
+  realColorTex: {fileID: 2800000, guid: 234600e7796f2c24795d97ac2580b633, type: 3}
+  realDepthTex: {fileID: 2800000, guid: 19b32b176edb1e44b987f0f9be367d2d, type: 3}
 --- !u!1 &1143924615
 GameObject:
   m_ObjectHideFlags: 0

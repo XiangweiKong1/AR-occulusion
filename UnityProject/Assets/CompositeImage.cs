@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 
 public class CompositeImage : MonoBehaviour
@@ -70,6 +71,16 @@ public class CompositeImage : MonoBehaviour
         materialOverlayImages.SetFloat("_SpatialSigma", spatialSigma);
         materialOverlayImages.SetInt("_Size", size);
         Graphics.Blit(vertClient.receiveTexture, destination, materialOverlayImages);
+
+        if(Input.GetKeyDown("S"))
+        {
+            byte[] bytes = vertClient.receiveTexture.EncodeToPNG();
+            File.WriteAllBytes("realColorImage.png", bytes);
+            Texture2D Image = new Texture2D(handTex.width, handTex.height);
+            Image.ReadPixels(new Rect(0, 0, handTex.width, handTex.height), 0, 0);
+            bytes = Image.EncodeToPNG();
+            File.WriteAllBytes("handDepths.png", bytes);
+        }
 
         RenderTexture.ReleaseTemporary(handTex);
     }
