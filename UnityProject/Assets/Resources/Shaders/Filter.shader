@@ -69,7 +69,7 @@
 				float2 uv2 = uv + float2(i / _FrameSize.x, j / _FrameSize.y);
 
 				float handDepth = tex2D(_HandsTex, uv2).r;
-				float spatialDiff = Gaussian(sqrt(i ^ 2 + j ^ 2), _SpatialSigma);
+				float spatialDiff = Gaussian(sqrt(i * i + j * j), _SpatialSigma);
 				float colorDiff = CompareColor(uv, uv2, _ColorSigma);
 				factor += spatialDiff * colorDiff;
 				output += handDepth * spatialDiff * colorDiff;
@@ -95,11 +95,16 @@
 		
 		float filteredDepth = Filter(input.uv, _Size);
 		float4 outputColor;
-		if (filteredDepth == 0) {
+		if (filteredDepth == 0 && virtualDepth == 0) {
 			outputColor = imageColor;
 		}
 		else {
-			outputColor = float4(filteredDepth, 0, 0, 1);
+			if (filteredDepth > virtualDepth) {
+				outputColor = imageColor;
+			}
+			else {
+				outputColor = virtualColor;
+			}
 		}
 		return outputColor;
 	}

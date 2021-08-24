@@ -571,7 +571,7 @@ Transform:
   m_GameObject: {fileID: 1190016985}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 1.256, y: 0.2, z: 3.49}
-  m_LocalScale: {x: 24, y: 24, z: 24}
+  m_LocalScale: {x: 22, y: 22, z: 22}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -912,9 +912,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handCamera: {fileID: 963194227}
   vertClient: {fileID: 963194229}
-  colorSigma: 2
-  spatialSigma: 2
-  size: 2
+  colorSigma: 0.2
+  spatialSigma: 0.2
+  size: 10
 --- !u!1 &2119176205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,7 +1018,7 @@ Transform:
   m_GameObject: {fileID: 2119176205}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 1.256, y: 0.20000005, z: 3.49}
-  m_LocalScale: {x: 24, y: 24, z: 24}
+  m_LocalScale: {x: 22, y: 22, z: 22}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
