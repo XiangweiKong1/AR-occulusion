@@ -80,11 +80,11 @@ public class CompositeImage : MonoBehaviour
         if(saveImages)
         {
             byte[] bytes = vertClient.receiveTexture.EncodeToPNG();
-            File.WriteAllBytes("realColorImage.png", bytes);
+            File.WriteAllBytes(Application.dataPath + "/realColorImage.png", bytes);
             Texture2D Image = new Texture2D(handTex.width, handTex.height);
             Image.ReadPixels(new Rect(0, 0, handTex.width, handTex.height), 0, 0);
             bytes = Image.EncodeToPNG();
-            File.WriteAllBytes("handDepths.png", bytes);
+            File.WriteAllBytes(Application.dataPath + "/handDepths.png", bytes);
             saveImages = false;
         }
 
