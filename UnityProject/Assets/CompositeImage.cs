@@ -43,6 +43,7 @@ public class CompositeImage : MonoBehaviour
     public float colorSigma = 2;
     public float spatialSigma = 2;
     public int size = 2;
+    private bool saveImages = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,10 @@ public class CompositeImage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.S)) 
+        {
+            saveImages = true;
+        }
         
     }
 
@@ -72,7 +77,7 @@ public class CompositeImage : MonoBehaviour
         materialOverlayImages.SetInt("_Size", size);
         Graphics.Blit(vertClient.receiveTexture, destination, materialOverlayImages);
 
-        if(Input.GetKeyDown("S"))
+        if(saveImages)
         {
             byte[] bytes = vertClient.receiveTexture.EncodeToPNG();
             File.WriteAllBytes("realColorImage.png", bytes);
@@ -80,6 +85,7 @@ public class CompositeImage : MonoBehaviour
             Image.ReadPixels(new Rect(0, 0, handTex.width, handTex.height), 0, 0);
             bytes = Image.EncodeToPNG();
             File.WriteAllBytes("handDepths.png", bytes);
+            saveImages = false;
         }
 
         RenderTexture.ReleaseTemporary(handTex);
