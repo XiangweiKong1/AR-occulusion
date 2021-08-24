@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class TestJointBilateralFilter : MonoBehaviour
 {
@@ -52,11 +53,20 @@ public class TestJointBilateralFilter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.Log("AAA");
+            byte[] bytes = realColorTex.EncodeToPNG();
+            Debug.Log(bytes);
+            File.WriteAllBytes(Application.dataPath + "/realColorImage.png", bytes);
+            bytes = realDepthTex.EncodeToPNG();
+            File.WriteAllBytes(Application.dataPath + "/handDepths.png", bytes);
+        }
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+
         materialOverlayImages.SetTexture("_VirtualTex", source);
         materialOverlayImages.SetTexture("_HandsTex", realDepthTex);
         materialOverlayImages.SetVector("_FrameSize", new Vector2(this.GetComponent<Camera>().pixelWidth, this.GetComponent<Camera>().pixelHeight));
@@ -64,5 +74,6 @@ public class TestJointBilateralFilter : MonoBehaviour
         materialOverlayImages.SetFloat("_SpatialSigma", spatialSigma);
         materialOverlayImages.SetInt("_Size", size);
         Graphics.Blit(realColorTex, destination, materialOverlayImages);
+
     }
 }
