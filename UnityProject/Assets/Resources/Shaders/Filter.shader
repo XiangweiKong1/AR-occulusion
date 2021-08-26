@@ -47,12 +47,26 @@
 
 	}
 
-	float CompareColor(float2 uv1, float2 uv2, float sigma)
+	float CompareColorRGB(float2 uv1, float2 uv2, float sigma)
 	{
 		float4 color1 = tex2D(_MainTex, uv1);
 		float4 color2 = tex2D(_MainTex, uv2);
 		float output = Gaussian(sqrt(pow((color1.x - color2.x), 2) + pow((color1.y - color2.y), 2) + pow((color1.z - color2.z), 2)), sigma);
 		
+		return output;
+	}
+
+	float CompareColorYCrCb(float2 uv1, float2 uv2, float sigma)
+	{
+		float4 color1 = tex2D(_MainTex, uv1);
+		float4 color2 = tex2D(_MainTex, uv2);
+		float Y1 = 0.299*color1.x + 0.587*color1.y + 0.114*color1.z;
+		float Cr1 = (color1.x - Y1)*0.713 + 0.5;
+		float Cb1 = (color1.z - Y1)*0.564 + 0.5;
+		float Y2 = 0.299*color2.x + 0.587*color2.y + 0.114*color2.z;
+		float Cr2 = (color2.x - Y2)*0.713 + 0.5;
+		float Cb2 = (color2.z - Y2)*0.564 + 0.5;
+		float output = Gaussian(sqrt(pow((Cr1 - Cr2), 2) + pow((Cb1 - Cb2), 2)), sigma);
 		return output;
 	}
 	
@@ -70,7 +84,7 @@
 
 				float handDepth = tex2D(_HandsTex, uv2).r;
 				float spatialDiff = Gaussian(sqrt(i * i + j * j), _SpatialSigma);
-				float colorDiff = CompareColor(uv, uv2, _ColorSigma);
+				float colorDiff = CompareColorRGB(uv, uv2, _ColorSigma);
 				factor += spatialDiff * colorDiff;
 				output += handDepth * spatialDiff * colorDiff;
 
@@ -95,16 +109,25 @@
 		
 		float filteredDepth = Filter(input.uv, _Size);
 		float4 outputColor;
-		if (filteredDepth == 0 && virtualDepth == 0) {
+		if (filteredDepth < 1e-6 && virtualDepth < 1e-6) {
 			outputColor = imageColor;
 		}
 		else {
-			if (filteredDepth > virtualDepth) {
+			/*if (filteredDepth > virtualDepth) {
 				outputColor = imageColor;
 			}
 			else {
 				outputColor = virtualColor;
+			}*/
+			
+			if (handDepth > 1e-6){
+				outputColor = float4(0, 0, 0, 1);
 			}
+
+			if (virtualDepth > 1e-6) {
+				outputColor = float4(1, 1, 1, 1);
+			}
+
 		}
 		return outputColor;
 	}

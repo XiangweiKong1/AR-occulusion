@@ -912,9 +912,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handCamera: {fileID: 963194227}
   vertClient: {fileID: 963194229}
-  colorSigma: 0.2
-  spatialSigma: 0.2
-  size: 10
+  colorSigma: 0.04
+  spatialSigma: 19.2
+  size: 51
 --- !u!1 &2119176205
 GameObject:
   m_ObjectHideFlags: 0
