@@ -84,7 +84,7 @@
 
 				float handDepth = tex2D(_HandsTex, uv2).r;
 				float spatialDiff = Gaussian(sqrt(i * i + j * j), _SpatialSigma);
-				float colorDiff = CompareColorRGB(uv, uv2, _ColorSigma);
+				float colorDiff = CompareColorYCrCb(uv, uv2, _ColorSigma);
 				factor += spatialDiff * colorDiff;
 				output += handDepth * spatialDiff * colorDiff;
 
@@ -109,26 +109,35 @@
 		
 		float filteredDepth = Filter(input.uv, _Size);
 		float4 outputColor;
+
 		if (filteredDepth < 1e-6 && virtualDepth < 1e-6) {
 			outputColor = imageColor;
 		}
 		else {
-			/*if (filteredDepth > virtualDepth) {
+			if (filteredDepth > virtualDepth) {
 				outputColor = imageColor;
 			}
 			else {
 				outputColor = virtualColor;
-			}*/
-			
-			if (handDepth > 1e-6){
-				outputColor = float4(0, 0, 0, 1);
-			}
-
-			if (virtualDepth > 1e-6) {
-				outputColor = float4(1, 1, 1, 1);
 			}
 
 		}
+
+
+		//if (handDepth < 1e-6 && virtualDepth < 1e-6) {
+		//	outputColor = imageColor;
+		//}
+		//else {
+
+		//	if (virtualDepth > 1e-6) {
+		//		outputColor = float4(1, 1, 0, 1);
+		//	}
+		//	//if (handDepth > 1e-6){
+		//	//	outputColor = float4(0, 0, 0, 1);
+		//	//}
+
+		//
+		//}
 		return outputColor;
 	}
 		

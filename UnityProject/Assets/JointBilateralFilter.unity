@@ -181,7 +181,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -219,11 +219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9eece75af0f9cc4ba853633be4ca057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorSigma: 2
-  spatialSigma: 2
-  size: 2
-  realColorTex: {fileID: 2800000, guid: f4895c4c869c87a4ebbffdab021de763, type: 3}
-  realDepthTex: {fileID: 2800000, guid: efedc11667722a343aec62b98eee85e9, type: 3}
+  colorSigma: 0.04
+  spatialSigma: 19
+  size: 50
+  realColorTex: {fileID: 2800000, guid: 139e41b2de60c594eb120800308e66e5, type: 3}
+  realDepthTex: {fileID: 2800000, guid: bb225196831ba464fbb19ae32c6d486b, type: 3}
 --- !u!1 &1143924615
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 1917711552}
   - component: {fileID: 1917711551}
   - component: {fileID: 1917711550}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,8 +406,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917711549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: -6.72, y: 1.28, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

@@ -55,7 +55,7 @@ public class CompositeImage : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.S)) 
+        if(Input.GetKeyUp(KeyCode.S)) 
         {
             saveImages = true;
         }
@@ -80,15 +80,34 @@ public class CompositeImage : MonoBehaviour
         if(saveImages)
         {
             byte[] bytes = vertClient.receiveTexture.EncodeToPNG();
-            File.WriteAllBytes(Application.dataPath + "/Screenshot/realColorImage.png", bytes);
-            Texture2D Image = new Texture2D(handTex.width, handTex.height, TextureFormat.RGBAFloat, false);
-            Graphics.CopyTexture(handTex, Image);
-            bytes = Image.EncodeToEXR();
-            File.WriteAllBytes(Application.dataPath + "/Screenshot/handDepths.exr", bytes);
+            File.WriteAllBytes(Application.dataPath + "/Screenshot/realColorImage"+ System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".png", bytes);
+            string filename = Application.dataPath + "/Screenshot/handDepths" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + ".exr";
+            //string filename = Application.dataPath + "/Screenshot/handDepths.exr";
+            SaveRenderTextureRGBAEXR(handTex, filename);
+            //Texture2D Image = new Texture2D(handTex.width, handTex.height, TextureFormat.RGBAFloat, false);
+            //Graphics.CopyTexture(handTex, Image);
+            //bytes = Image.EncodeToEXR();
+            //File.WriteAllBytes(Application.dataPath + "/Screenshot/handDepths.exr", bytes);
             saveImages = false;
-            Destroy(Image);
+            //Destroy(Image);
         }
 
         RenderTexture.ReleaseTemporary(handTex);
+    }
+
+    void SaveRenderTextureRGBAEXR(RenderTexture texture, string filename)
+    {
+        RenderTexture.active = texture;
+        Texture2D tex = new Texture2D(texture.width, texture.height, TextureFormat.RGBAFloat, false);
+        tex.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
+        RenderTexture.active = null;
+        byte[] bytes;
+        bytes = tex.EncodeToEXR();
+        //if (!File.Exists(filename))
+        //{
+        //    File.Create(filename).Dispose();
+        //}
+        System.IO.File.WriteAllBytes(filename, bytes);
+        Destroy(tex);
     }
 }
